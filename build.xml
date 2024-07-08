@@ -1,0 +1,40 @@
+<project name="Design Magical Arena" default="run" basedir=".">
+    <property name="src.dir" value="src/main/java"/>
+    <property name="test.dir" value="src/test/java"/>
+    <property name="build.dir" value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="test.classes.dir" value="${build.dir}/test-classes"/>
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}">
+            <include name="/*.java"/>
+        </javac>
+    </target>
+
+    <target name="compile-test">
+        <mkdir dir="${test.classes.dir}"/>
+        <javac srcdir="${test.dir}" destdir="${test.classes.dir}" classpath="${classes.dir}">
+            <include name="/*.java"/>
+        </javac>
+    </target>
+
+    <target name="run" depends="compile">
+        <java classname="com.example.Design Magical Arena.Main" classpath="${classes.dir}" fork="true"/>
+    </target>
+
+    <target name="test" depends="compile, compile-test">
+        <junit>
+            <classpath>
+                <pathelement path="${classes.dir}"/>
+                <pathelement path="${test.classes.dir}"/>
+            </classpath>
+            <test name="com.example.Design Magical Arena.PlayerTest"/>
+            <test name="com.example.Design Magical Arena.ArenaTest"/>
+        </junit>
+    </target>
+</project>
